@@ -44,7 +44,7 @@ bot.on('message',message=>{
             message.channel.send("Colin is bad", image(message));
              break;
         case 'clear':
-            if(!args[1]) return message.reply('I need a number of messages to clear BAKA!!!')
+            if(!args[1]) return message.reply('I need a number of messages to clear!')
             message.channel.bulkDelete(args[1]);
         break;
         case 'image':
@@ -80,15 +80,24 @@ bot.on('message',message=>{
                 play(connection,message);
             })
         break;
-        case 'pain':
-               
-        break;
+            
         case 'stop':
-               
+            var server= servers[message.guild.id];
+             if(message.guild.voiceConnection){
+                 for(var i = server.quene.length-1;i>=0;i--){
+                    server.quene.splice(i,1);
+                 }
+                 server.dispatcher.end()
+                 console.log('stopped the quene')
+             }
+             if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
         break;
-        case 'skip':
 
+        case 'skip':
+            var server= servers[message.guild.id];
+             if(server.dispatcher) server.dispatcher.end();
         break;
+            
         case 'kick':
             if(!args[1])  message.channel.send('You need to give me a name idiot.')
             const user=message.mentions.users.first();
